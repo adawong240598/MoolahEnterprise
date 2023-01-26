@@ -1,0 +1,482 @@
+<app-header></app-header>
+<br />
+
+<div style="z-index: -1" id="tag">
+  <div style="width: 100%; height: 1700px"></div>
+</div>
+<div style="z-index: 1; margin-top: -100%">
+
+  <h1 style="text-align: center" class="pageHeader">View my Profile</h1>
+  <br />
+
+  <table style="margin-left: 45%">
+    <td>
+      <p style="text-align: center" class="secondaryHeader">Company Picture</p>
+    </td>
+
+    <td style="width: 50%; vertical-align: middle">
+      <p-fileUpload
+        id="fileUpload"
+        #form
+        chooseIcon="pi pi-pencil"
+        name="myfile"
+        [maxFileSize]="5000000"
+        (onSelect)="onUpload($event)"
+        [multiple]="true"
+        accept="image/*"
+        [auto]="true"
+        chooseLabel=" "
+      ></p-fileUpload>
+    </td>
+  </table>
+  <div style="text-align: center">
+    <img
+      width="300"
+      height="300"
+      src="{{ sessionService.getImageURLFromServer(company) }}"
+    />
+  </div>
+
+  <br />
+  <h2 style="text-align: center" class="secondaryHeader">
+    Company Information
+  </h2>
+
+  <form
+    #updateCompanyForm="ngForm"
+    (ngSubmit)="update(updateCompanyForm)"
+    style="height: 10%"
+  >
+    <div style="margin-left: 32.5%; text-align: center">
+      <table width="60%" style="border-spacing: 0 23px">
+        <tr>
+          <td width="20%" style="font-weight: bold" class="bodyText">
+            Company Name
+          </td>
+          <td>
+            <input
+              pInputText
+              id="companyName"
+              name="companyName"
+              #companyName="ngModel"
+              type="text"
+              [(ngModel)]="company.companyName"
+              required="true"
+              class="bodyText, inputWidth"
+              [disabled]="toggleCompanyName"
+            />
+            <button
+              icon="pi pi-pencil"
+              pButton
+              *ngIf="toggleCompanyName"
+              type="button"
+              (click)="saveCompanyNameEdit()"
+              pRipple
+              class="p-button-text"
+            ></button>
+          </td>
+        </tr>
+
+        <tr>
+          <td width="20%" style="font-weight: bold" class="bodyText">
+            Company Email
+          </td>
+          <td>
+            <input
+              pInputText
+              id="companyEmail"
+              name="companyEmail"
+              #companyEmail="ngModel"
+              type="text"
+              [(ngModel)]="company.companyEmail"
+              required="true"
+              class="bodyText, inputWidth"
+              [disabled]="toggleCompanyEmail"
+            />
+            <button
+              icon="pi pi-pencil"
+              pButton
+              *ngIf="toggleCompanyEmail"
+              type="button"
+              (click)="saveCompanyEmailEdit()"
+              pRipple
+              class="p-button-text"
+            ></button>
+          </td>
+        </tr>
+
+        <tr>
+          <td width="20%" style="font-weight: bold" class="bodyText">
+            Business Registration Number
+          </td>
+          <td>
+            <input
+              pInputText
+              id="businessRegNumber"
+              name="businessRegNumber"
+              #businessRegNumber="ngModel"
+              type="text"
+              [(ngModel)]="company.businessRegNumber"
+              required="true"
+              class="bodyText, inputWidth"
+              [disabled]="true"
+              style="margin-right: 6.5%"
+            />
+          </td>
+        </tr>
+
+        <tr>
+          <td width="20%" style="font-weight: bold" class="bodyText">
+            Company Contact Number
+          </td>
+          <td>
+            <input
+              pInputText
+              id="companyContactNumber"
+              name="companyContactNumber"
+              #companyContactNumber="ngModel"
+              type="text"
+              [(ngModel)]="company.companyContactNumber"
+              required="true"
+              class="bodyText, inputWidth"
+              [disabled]="toggleCompanyNumber"
+              ngClass="{'bodyText, inputWidth'} : true, {'bodyText, inputWidth'} : false"
+            />
+            <button
+              icon="pi pi-pencil"
+              pButton
+              *ngIf="toggleCompanyNumber"
+              type="button"
+              (click)="saveCompanyNumberEdit()"
+              pRipple
+              class="p-button-text"
+            ></button>
+          </td>
+        </tr>
+
+        <tr>
+          <td width="20%" style="font-weight: bold" class="bodyText">
+            Company Contact Number
+          </td>
+          <td>
+            <input
+              pInputText
+              id="companyUrl"
+              name="companyUrl"
+              #companyUrl="ngModel"
+              type="text"
+              [(ngModel)]="company.companyUrl"
+              required="true"
+              class="bodyText, inputWidth"
+              [disabled]="toggleCompanyUrl"
+              ngClass="{'bodyText, inputWidth'} : true, {'bodyText, inputWidth'} : false"
+            />
+            <button
+              icon="pi pi-pencil"
+              pButton
+              *ngIf="toggleCompanyUrl"
+              type="button"
+              (click)="saveUrlEdit()"
+              pRipple
+              class="p-button-text"
+            ></button>
+          </td>
+        </tr>
+
+        <tr>
+          <td width="20%" style="font-weight: bold" class="bodyText">
+            Password
+          </td>
+          <td>
+            <p-password
+              id="password"
+              name="password"
+              #password="ngModel"
+              type="text"
+              [(ngModel)]="company.password"
+              required="true"
+              [toggleMask]="true"
+              class="bodyText, inputWidth"
+              [disabled]="true"
+            ></p-password>
+            <button
+              icon="pi pi-pencil"
+              pButton
+              *ngIf="togglePassword"
+              type="button"
+              (click)="showDialog($event)"
+              pRipple
+              class="p-button-text"
+            ></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <h2 style="text-align: center" class="secondaryHeader">Point Of Contact</h2>
+    <div style="text-align: center">
+      <button
+        icon="pi pi-pencil"
+        pButton
+        *ngIf="togglePoc"
+        type="button"
+        (click)="savePocEdit()"
+        class="p-button-raised"
+        label="Edit"
+      ></button>
+      <p-button
+        *ngIf="!togglePoc"
+        label="Add Point of Contact"
+        type="button"
+        (click)="handleClickAddPoc()"
+        class="p-button-raised"
+      ></p-button>
+    </div>
+    <br />
+
+    <div id="tag">
+      <div>
+        <div style="margin-left: 17%; width: 83%">
+          <p-table
+            id="tablePointOfContact"
+            [value]="company.listOfPointOfContacts"
+            dataKey="rowIndex"
+            [style]="{ width: '80%', 'z-index': '0' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th
+                  class="p-datatable-thead"
+                  style="width: 7%; text-align: center"
+                >
+                  S/N
+                </th>
+                <th style="text-align: center">Point Of Contact Name</th>
+                <th style="text-align: center">
+                  Point Of Contact Mobile Number
+                </th>
+                <th style="text-align: center">
+                  Point Of Contact Office Number
+                </th>
+                <th style="text-align: center">Point Of Contact Email</th>
+                <th style="width: 7%; text-align: center">Action</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowIndex="rowIndex" let-poc>
+              <tr>
+                <td style="text-align: center">{{ rowIndex + 1 }}</td>
+                <td>
+                  <input
+                    pInputText
+                    id="pocName_{{ rowIndex }}"
+                    name="pocName_{{ rowIndex }}"
+                    #pocName="ngModel"
+                    type="text"
+                    [(ngModel)]="poc.pocName"
+                    required="true"
+                    [disabled]="togglePoc"
+                    style="text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="pocMobileNumber_{{ rowIndex }}"
+                    name="pocMobileNumber_{{ rowIndex }}"
+                    #pocMobileNumber="ngModel"
+                    type="text"
+                    [(ngModel)]="poc.pocMobileNumber"
+                    required="true"
+                    [disabled]="togglePoc"
+                    style="text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="pocOfficeNumber_{{ rowIndex }}"
+                    name="pocOfficeNumber_{{ rowIndex }}"
+                    #pocOfficeNumber="ngModel"
+                    type="text"
+                    [(ngModel)]="poc.pocOfficeNumber"
+                    required="true"
+                    [disabled]="togglePoc"
+                    style="text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="pocEmail{{ rowIndex }}"
+                    name="pocEmail_{{ rowIndex }}"
+                    #pocEmail="ngModel"
+                    type="text"
+                    [(ngModel)]="poc.pocEmail"
+                    required="true"
+                    [disabled]="togglePoc"
+                    style="text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <button
+                    (click)="handleClickRemovePoc(rowIndex)"
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-danger p-button-text"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <br />
+        <div style="text-align: center">
+          <button
+            pButton
+            style="width: 15%"
+            (click)="showDeactivateDialog()"
+            icon="pi pi-ban"
+            class="p-button-danger p-button-raised"
+            label="Deactivate my Account"
+          ></button>
+          &nbsp; &nbsp;
+          <button
+            pButton
+            style="text-align: center"
+            class="p-button-raised"
+            type="submit"
+            label="Update my Profile"
+            icon="pi pi-save"
+            style="width: 15%"
+          ></button>
+        </div>
+        <br />
+      </div>
+    </div>
+
+    <p-confirmDialog
+      header="Confirmation"
+      icon="pi pi-exclamation-triangle"
+    ></p-confirmDialog>
+  </form>
+
+  <p-toast></p-toast>
+  <p-dialog
+    header="Deactivate Account"
+    [(visible)]="dialogDeactivateAccount"
+    [closable]="true"
+    [resizable]="false"
+    [draggable]="false"
+    [dismissableMask]="true"
+  >
+    <div style="text-align: center">
+      <p style="text-align: center">
+        Are you sure that you want to deactivate your account?
+      </p>
+      <button
+        pButton
+        class="p-button-raised p-button-secondary"
+        style="width: 45%"
+        type="button"
+        (click)="hideDeactiveDialog()"
+        label="Cancel"
+      ></button>
+      &nbsp;
+      <button
+        pButton
+        class="p-button-raised p-button-danger"
+        style="width: 45%"
+        type="button"
+        (click)="deactiveAccount()"
+        label="Deactivate"
+      ></button>
+    </div>
+  </p-dialog>
+  <p-dialog
+    id="changePasswordDialog"
+    name="changePasswordDialog"
+    header="Change Password"
+    [(visible)]="display"
+    [closable]="true"
+    [resizable]="false"
+    [draggable]="false"
+    [dismissableMask]="true"
+  >
+    <div id="dialogFormForUpdatePassword">
+      <form
+        #changePasswordForm="ngForm"
+        (ngSubmit)="updatePassword(changePasswordForm)"
+        style="height: 10%"
+      >
+        <div style="text-align: center; margin: 0 auto">
+          <table width="95%" style="border-spacing: 0 23px">
+            <tr>
+              <td class="bodyText">Old Password:</td>
+              <td>
+                <p-password
+                  id="password"
+                  name="password"
+                  #password="ngModel"
+                  [(ngModel)]="oldPassword"
+                  required="true"
+                  [toggleMask]="true"
+                  class="bodyText, inputWidth"
+                ></p-password>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="bodyText">New Password:</td>
+              <td>
+                <p-password
+                  id="password"
+                  name="password"
+                  #password="ngModel"
+                  type="text"
+                  [(ngModel)]="newPassword"
+                  required="true"
+                  [toggleMask]="true"
+                  class="bodyText, inputWidth"
+                ></p-password>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="bodyText">Repeat New Password:</td>
+              <td>
+                <p-password
+                  id="password"
+                  name="password"
+                  #password="ngModel"
+                  type="text"
+                  [(ngModel)]="repeatNewPassword"
+                  required="true"
+                  [toggleMask]="true"
+                  class="bodyText, inputWidth"
+                ></p-password>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div style="text-align: center">
+          <input
+            pButton
+            pInputText
+            type="submit"
+            value="Change Password"
+            class="p-button-raised"
+          />
+        </div>
+      </form>
+    </div>
+  </p-dialog>
+  <app-footer></app-footer>
+</div>

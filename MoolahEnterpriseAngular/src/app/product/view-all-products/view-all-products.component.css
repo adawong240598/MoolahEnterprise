@@ -1,0 +1,54 @@
+.category-badge.type-ENDOWMENT{background-color:#c8e6c9;color:#256029}
+.category-badge.type-TERMLIFE{background-color:#ffcdd2;color:#c63737}
+.category-badge.type-WHOLELIFE{background-color:#b3e5fc;color:#23547b}
+.bodyText {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.errorText {
+  list-style-type: none;
+  font-size: 16px;
+  font-family: sans-serif;
+  margin-left: 20px;
+  color: red;
+}
+
+.pageHeader {
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.secondaryHeader {
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.inputWidth {
+  width: 66.5% !important;
+}
+
+
+
+td {
+  border: none !important;
+}
+
+:host >>> .p-fileupload .p-fileupload-buttonbar {
+  background: transparent;
+  color: none;
+  border: none;
+  border-bottom: 0 none;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  text-align: center;
+}
+
+.p-button-danger {
+  background: #be212e;
+  color: #ffffff;
+  border-color: #c01120;
+}
+

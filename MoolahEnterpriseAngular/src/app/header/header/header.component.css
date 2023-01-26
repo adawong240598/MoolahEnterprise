@@ -1,0 +1,54 @@
+.p-button {
+  color: #000000;
+  background: transparent;
+  border: 1px solid black;
+  padding: 0.429rem 1rem;
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.bodyText {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.errorText {
+  list-style-type: none;
+  font-size: 16px;
+  font-family: sans-serif;
+  margin-left: 20px;
+  color: red;
+}
+
+.pageHeader {
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.secondaryHeader {
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.p-menuitem-text {
+  text-align:center!important;
+}
+
+.p-menuitem-icon {
+  text-align:center!important;
+}
+
+:host >>> #creditPanel .p-overlaypanel .p-overlaypanel-content {
+  padding: 0.571rem 1rem;
+  width: 300px;
+}
+
+:host >>> .backgroundGreyBox {
+  background-color: grey;
+  border: 1px black solid;
+}

@@ -1,0 +1,109 @@
+<app-header></app-header>
+<h2 style="text-align: center" class="pageHeader">View All Products</h2>
+<br />
+
+<p-table #dt id="tableProductCatalogue" [value]="products" [rows]="10" [showCurrentPageReport]="true"
+	rowPerPageOptions="[10,25,50]" [loading]="loading" [paginator]="true" dataKey="id" [totalRecords]="totalRecords"
+	[lazy]="false" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+	[globalFilterFields]="['productName', 'productCategoryPricing.categoryType', 'productDateCreated']">
+	<ng-template pTemplate="caption">
+		<div class="p-d-flex">
+			<span class="p-input-icon-left p-ml-auto">
+				<i class="pi pi-search"></i>
+				<input pInputText type="text" id="filterInputText" (input)="applyFilterGlobal($event, 'contains', dt)"
+					placeholder="Search keyword" />
+			</span>
+		</div>
+	</ng-template>
+
+
+	<ng-template pTemplate="header">
+		<tr>
+			<th style=" width: 7%; text-align: center;">S/N</th>
+			<th style="width: 20%; text-align: center;">Product Name</th>
+			<th style="width: 13%; text-align: center;">Product Category</th>
+			<th style="width: 31%; text-align: center;">Date Listed</th>
+			<th style="text-align: center;">Current Month Clickthrough Rate</th>
+			<th style="text-align: center;">Total Clickthrough For Product</th>
+			<th style="width: 5%; text-align: center;">Action</th>
+
+		</tr>
+
+		<tr>
+			<th>
+			</th>
+			<th>
+				<p-columnFilter type="text" field="productName"></p-columnFilter>
+			</th>
+			<th>
+				<p-columnFilter field="productCategoryPricing.categoryType" matchMode="equals" [showMenu]="false" >
+					<ng-template pTemplate="filter" let-value let-filter="filterCallback">
+						<p-dropdown [ngModel]="value" [options]="categoryTypes" (onChange)="filter($event.value)"
+							placeholder="Any" [showClear]="true">
+							<ng-template let-option pTemplate="item">
+								<span class="category-badge type-{{option.value}}">{{option.label}}</span>
+							</ng-template>
+						</p-dropdown>
+					</ng-template>
+				</p-columnFilter>
+			</th>
+			<th>
+
+			 <div id="filterDate">
+                From : <input pInputText name="startDate" type="date" [(ngModel)]="startFilterDate"
+                    [disabled]="false"  min="2013-01-01" max="2022-01-01" (change)="searchForFilteredProducts($event)">
+				&nbsp;
+				To :
+                <input pInputText name="endDate" type="date" [(ngModel)]="endFilterDate" [disabled]="false" min={{startFilterDate}} max="2022-01-01" (change)="searchForFilteredProducts($event)">
+                &nbsp;
+
+            </div>
+
+
+			</th>
+			<th>
+
+			</th>
+			<th>
+
+			</th>
+			<th>
+
+			</th>
+	</ng-template>
+
+
+	<ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+		<tr>
+			<td style="text-align: center;">{{rowIndex + 1}}</td>
+			<td style="text-align: center;">{{product.productName}}</td>
+			<td style="text-align: center;"> <span
+					class="category-badge type-{{product.productCategoryPricing.categoryType}}">{{product.productCategoryPricing.categoryType}}</span>
+			</td>
+			<td style="text-align: center;">{{getDate(product.productDateCreated)| date: 'dd-MM-yyyy'}}</td>
+			<td style="text-align: center;">{{product.clickThroughInfo.monthCounter}}</td>
+			<td style="text-align: center;">{{product.clickThroughInfo.overallCounter}}</td>
+			<td>
+			<div style="text-align: center">
+			<button
+              routerLink ="../../product/viewProductDetails/{{product.productId}}"
+              pButton
+              pRipple
+              icon="pi pi-link"
+              class="p-button-rounded p-button-info p-button-text"
+            ></button>
+			</div>
+			</td>
+
+
+		</tr>
+	</ng-template>
+</p-table>
+<br />
+<br />
+<br />
+<br />
+
+
+
+<app-footer></app-footer>

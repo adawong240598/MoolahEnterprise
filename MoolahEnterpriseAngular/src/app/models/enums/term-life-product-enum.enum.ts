@@ -1,0 +1,5 @@
+export enum TermLifeProductEnum {
+    ACCIDENT = "ACCIDENT",
+    HOSPITAL = "HOSPITAL",
+    CRITICALILLNESS = "CRITICALILLNESS"
+}

@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+.footer {
+	display: block;
+    position: fixed;
+    bottom: 2px;
+    width: 100%;
+	padding: 2px 2px 2px 2px;
+	clear: both;
+	background-color: whitesmoke;
+}
+
+#tag div {
+  background: URL("http://localhost:8080/MoolahEnterprise-war/resources/images/updated_createCompany2.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  background-attachment: fixed;
+  z-index: -1;
+}
+
+.cleanDiv {
+  width: auto;
+}
+
+:host >>> .p-inputtext {
+  margin: 0;
+  background-color: white;
+  border: 1px solid rgb(145, 145, 145);
+}

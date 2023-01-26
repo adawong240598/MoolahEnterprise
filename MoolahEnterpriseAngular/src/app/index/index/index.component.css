@@ -1,0 +1,12 @@
+body {
+  background: "http://localhost:8080/MoolahEnterprise-war/resources/images/updated_createCompany.png";
+  background-repeat: no-repeat;
+  background-size: 550px 300px;
+  background-position: center;
+}
+
+img.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: fixed;
+  top: 0;
+}

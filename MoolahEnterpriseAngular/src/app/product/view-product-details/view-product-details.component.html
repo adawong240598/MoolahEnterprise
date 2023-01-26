@@ -1,0 +1,709 @@
+<app-header></app-header>
+
+<p-toast></p-toast>
+<br />
+
+<div id="tag">
+  <div>
+    <br />
+    <h2 style="text-align: center" class="pageHeader">View Product Details</h2>
+
+    <div style="text-align: center">
+      <span *ngIf="retrieveProductError == true" style="color: red"
+        >Product ID {{ productId }} does not exist!</span
+      >
+    </div>
+
+    <div *ngIf="retrieveProductError == false">
+      <form #updateProductForm="ngForm" style="height: 10%">
+        <div style="text-align: center">
+          <button
+            pButton
+            *ngIf="!isDeleted"
+            type="button"
+            label="Delete Product"
+            badgeClass="p-badge-info"
+            icon="pi pi-trash"
+            class="p-button-danger"
+            (click)="confirmDeleteProduct()"
+          ></button>
+        </div>
+
+        <div style="text-align: center" *ngIf="isDeleted">
+          <br />
+          <h4 class="bodyText">Product has been successfully deleted!</h4>
+          <p-button type="button" (click)="backToHome()"
+            >Back to Products</p-button
+          >
+        </div>
+        <br />
+
+        <div *ngIf="!isDeleted">
+          <table style="border-spacing: 0 23px; margin-left: 23%; width: 70%">
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Product Name
+              </td>
+              <input
+                pInputText
+                id="productName"
+                name="productName"
+                #productName="ngModel"
+                type="text"
+                [(ngModel)]="productToView.productName"
+                required="true"
+                class="bodyText, inputWidth"
+                [disabled]="toggleProductName"
+                ngClass="{'bodyText, inputWidth'} : false, {'bodyText, inputWidth'} : true"
+              />
+              <button
+                pButton
+                *ngIf="toggleProductName"
+                type="button"
+                (click)="saveProductName()"
+                icon="pi pi-pencil"
+                class="p-button-text"
+              ></button>
+            </tr>
+
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Product Description
+              </td>
+              <input
+                pInputText
+                id="productDescription"
+                name="productDescription"
+                #productDescription="ngModel"
+                type="text"
+                [(ngModel)]="productToView.description"
+                required="true"
+                class="bodyText, inputWidth"
+                [disabled]="toggleProductDescription"
+                ngClass="{'bodyText, inputWidth'} : false, {'bodyText, inputWidth'} : true"
+              />
+              <button
+                pButton
+                *ngIf="toggleProductDescription"
+                type="button"
+                (click)="saveProductDescription()"
+                icon="pi pi-pencil"
+                class="p-button-text"
+              ></button>
+            </tr>
+
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Product Coverage Term
+              </td>
+              <td>
+                <input
+                  pInputText
+                  id="productCoverage"
+                  name="productCoverage"
+                  #productCoverage="ngModel"
+                  type="text"
+                  [(ngModel)]="productToView.coverageTerm"
+                  required="true"
+                  class="bodyText, inputWidth"
+                  [disabled]="toggleCoverageTerm"
+                  ngClass="{'bodyText, inputWidth'} : false, {'bodyText, inputWidth'} : true"
+                />
+                <button
+                  pButton
+                  *ngIf="toggleCoverageTerm"
+                  type="button"
+                  (click)="saveCoverageTerm()"
+                  icon="pi pi-pencil"
+                  class="p-button-text"
+                ></button>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Product Assured Sum
+              </td>
+              <td>
+                <input
+                  pInputText
+                  id="productAssured"
+                  name="productAssured"
+                  #productAssured="ngModel"
+                  type="text"
+                  [(ngModel)]="productToView.assuredSum"
+                  required="true"
+                  class="bodyText, inputWidth"
+                  [disabled]="toggleAssuredSum"
+                  ngClass="{'bodyText, inputWidth'} : false, {'bodyText, inputWidth'} : true"
+                />
+                <button
+                  pButton
+                  *ngIf="toggleAssuredSum"
+                  type="button"
+                  (click)="saveAssuredSum()"
+                  icon="pi pi-pencil"
+                  class="p-button-text"
+                ></button>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Product Premium Term
+              </td>
+              <td>
+                <input
+                  pInputText
+                  id="productPremiumTerm"
+                  name="productPremiumTerm"
+                  #productPremiumTerm="ngModel"
+                  type="text"
+                  [(ngModel)]="productToView.premiumTerm"
+                  required="true"
+                  class="bodyText, inputWidth"
+                  [disabled]="togglePremiumTerm"
+                  ngClass="{'bodyText, inputWidth'} : false, {'bodyText, inputWidth'} : true"
+                />
+                <button
+                  pButton
+                  *ngIf="togglePremiumTerm"
+                  type="button"
+                  (click)="savePremiumTerm()"
+                  icon="pi pi-pencil"
+                  class="p-button-text"
+                ></button>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Average Interest Rate
+              </td>
+              <td>
+                <input
+                  pInputText
+                  id="productAvgInterest"
+                  name="productAvgInterest"
+                  #productAvgInterest="ngModel"
+                  type="text"
+                  [(ngModel)]="productToView.averageInterestRate"
+                  required="true"
+                  class="bodyText, inputWidth"
+                  [disabled]="toggleAverageInterestRate"
+                  ngClass="{'bodyText, inputWidth'} : false, {'bodyText, inputWidth'} : true"
+                />
+                <button
+                  pButton
+                  *ngIf="toggleAverageInterestRate"
+                  type="button"
+                  (click)="saveAverageInterestRate()"
+                  icon="pi pi-pencil"
+                  class="p-button-text"
+                ></button>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="font-weight: bold; width: 30%" class="bodyText">
+                Policy Currency Value
+              </td>
+              <td>
+                <select
+                  id="policyCurrencyList"
+                  name="policyCurrencyList"
+                  [(ngModel)]="productToView.policyCurrency"
+                  (change)="selectChangeHandlerCurrency($event)"
+                  required="true"
+                  #policyCurrencyList="ngModel"
+                  style="float: left"
+                >
+                  <option value="SGD">SGD</option>
+                  <option value="USD">USD</option>
+                  <option value="NZD">NZD</option>
+                  <option value="EUR">EUR</option>
+                  <option value="GBP">GBP</option>
+                  <option value="MYR">MYR</option>
+                  <option value="HKD">HKD</option>
+                  <option value="RMB">RMB</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="font-weight: bold; width: 20%" class="bodyText">
+                Is Available To Smoker
+              </td>
+              <td>
+                <select
+                  id="smokerBoolean"
+                  name="smokerBoolean"
+                  [(ngModel)]="productToView.isAvailableToSmoker"
+                  required="true"
+                  #smokerBoolean="ngModel"
+                >
+                  <option [ngValue]="true">Yes</option>
+                  <option [ngValue]="false">No</option></select
+                >&nbsp;
+              </td>
+            </tr>
+
+            <tr>
+              <td style="font-weight: bold; width: 20%" class="bodyText">
+                Product Category
+              </td>
+              <td>
+                <p>{{ productType }}</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight: bold; width: 20%" class="bodyText">
+                Product Type
+              </td>
+              <td>
+                <p>{{ productEnumType }}</p>
+              </td>
+            </tr>
+          </table>
+
+          <br />
+
+          <div style="text-align: center">
+            <h2 class="secondaryHeader">Additional Features</h2>
+
+            <button
+              pButton
+              *ngIf="toggleAdditionalFeatures"
+              type="button"
+              icon="pi pi-pencil"
+              (click)="saveAdditionalFeatures()"
+              class="p-button-raised"
+              label="Edit"
+            ></button>
+
+            <button
+              pButton
+              *ngIf="!toggleAdditionalFeatures"
+              type="button"
+              icon="pi pi-plus-circle"
+              (click)="handleClickAddFeature()"
+              class="p-button-raised"
+              label="Add Feature"
+            ></button>
+          </div>
+          <br />
+
+          <div style="margin-left: 10%; width: 80%">
+            <p-table
+              id="tableFeature"
+              [value]="productToView.listOfAdditionalFeatures"
+              [style]="{ 'z-index': '0' }"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 7%; text-align: center">S/N</th>
+                  <th style="width: 30%; text-align: center">Feature name</th>
+                  <th style="text-align: center">Feature Description</th>
+                  <th style="width: 7%; text-align: center">Action</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-prod let-rowIndex="rowIndex">
+                <tr>
+                  <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="featureName_{{ rowIndex }}"
+                      name="featureName_{{ rowIndex }}"
+                      #featureName="ngModel"
+                      type="text"
+                      [(ngModel)]="prod.featureName"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="featureDescription_{{ rowIndex }}"
+                      name="featureDescription_{{ rowIndex }}"
+                      #featureDescription="ngModel"
+                      type="text"
+                      [(ngModel)]="prod.featureDescription"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <div style="text-align: center">
+                      <button
+                        pButton
+                        [disabled]="toggleAdditionalFeatures"
+                        icon="pi pi-trash"
+                        class="p-button-danger p-button-text"
+                        [style]="{ width: '100%', background: 'white' }"
+                        (click)="handleClickRemoveFeature(rowIndex)"
+                      ></button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+            <div style="text-align: center">
+              <h2 class="secondaryHeader">Riders For Products</h2>
+
+              <button
+                pButton
+                *ngIf="toggleRider"
+                type="button"
+                icon="pi pi-pencil"
+                (click)="saveRider()"
+                class="p-button-raised"
+                label="Edit"
+              ></button>
+
+              <button
+                pButton
+                *ngIf="!toggleRider"
+                type="button"
+                icon="pi pi-plus-circle"
+                (click)="handleClickAddRider()"
+                class="p-button-raised"
+                label="Add Rider"
+              ></button>
+            </div>
+            <br />
+          </div>
+
+          <div style="margin-left: 10%; width: 80%">
+            <p-table
+              id="tableRider"
+              [value]="productToView.listOfRiders"
+              [style]="{ 'z-index': '0' }"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 7%; text-align: center">S/N</th>
+                  <th style="width: 30%; text-align: center">Rider name</th>
+                  <th style="width: 15%; text-align: center">
+                    Rider Premium Value
+                  </th>
+                  <th style="text-align: center">Rider Description</th>
+                  <th style="width: 7%; text-align: center">Action</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-rider let-rowIndex="rowIndex">
+                <tr>
+                  <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="riderName_{{ rowIndex }}"
+                      name="riderName_{{ rowIndex }}"
+                      #riderName="ngModel"
+                      type="text"
+                      [(ngModel)]="rider.riderName"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="riderPremiumValue_{{ rowIndex }}"
+                      name="riderPremiumValue_{{ rowIndex }}"
+                      #riderPremiumValue="ngModel"
+                      type="number"
+                      [(ngModel)]="rider.riderPremiumValue"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="riderDescription_{{ rowIndex }}"
+                      name="riderDescription_{{ rowIndex }}"
+                      #riderDescription="ngModel"
+                      type="text"
+                      [(ngModel)]="rider.riderDescription"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <div style="text-align: center">
+                      <button
+                        pButton
+                        pRipple
+                        [disabled]="toggleRider"
+                        icon="pi pi-trash"
+                        class="p-button-danger p-button-text"
+                        [style]="{ width: '100%', background: 'white' }"
+                        (click)="handleClickRemoveRider(rowIndex)"
+                      ></button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+            <div style="text-align: center">
+              <h2 class="secondaryHeader">Premium For Product</h2>
+
+              <button
+                pButton
+                *ngIf="togglePremium"
+                type="button"
+                icon="pi pi-pencil"
+                (click)="savePremium()"
+                class="p-button-raised"
+                label="Edit"
+              ></button>
+
+              <button
+                pButton
+                *ngIf="!togglePremium"
+                type="button"
+                icon="pi pi-plus-circle"
+                (click)="handleClickAddPremium()"
+                class="p-button-raised"
+                label="Add Premium"
+              ></button>
+            </div>
+            <br />
+          </div>
+
+          <div style="margin-left: 10%; width: 80%">
+            <p-table
+              id="tablePremium"
+              [value]="productToView.listOfPremium"
+              [style]="{ 'z-index': '0' }"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="text-align: center">S/N</th>
+                  <th style="text-align: center">Min Age Group</th>
+                  <th style="text-align: center">Max Age Group</th>
+                  <th style="text-align: center">Premium Value</th>
+                  <th style="text-align: center">Action</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-premium let-rowIndex="rowIndex">
+                <tr>
+                  <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="minAge_{{ rowIndex }}"
+                      name="minAge_{{ rowIndex }}"
+                      #minAge="ngModel"
+                      type="number"
+                      [(ngModel)]="premium.minAgeGroup"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="maxAge_{{ rowIndex }}"
+                      name="maxAge_{{ rowIndex }}"
+                      #maxAge="ngModel"
+                      type="number"
+                      [(ngModel)]="premium.maxAgeGroup"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="premiumValue_{{ rowIndex }}"
+                      name="premiumValue_{{ rowIndex }}"
+                      #premiumValue="ngModel"
+                      type="number"
+                      [(ngModel)]="premium.premiumValue"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <div style="text-align: center">
+                      <button
+                        pButton
+                        pRipple
+                        [disabled]="togglePremium"
+                        icon="pi pi-trash"
+                        class="p-button-danger p-button-text"
+                        [style]="{ width: '100%', background: 'white' }"
+                        (click)="handleClickRemovePremium(rowIndex)"
+                      ></button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+          <br />
+          <div *ngIf="productToView.isAvailableToSmoker == true">
+            <div style="text-align: center">
+              <h2 class="secondaryHeader">Smoker Premium For Product</h2>
+
+              <button
+                pButton
+                *ngIf="toggleSmokerPremium"
+                type="button"
+                icon="pi pi-pencil"
+                (click)="saveSmokerPremium()"
+                class="p-button-raised"
+                label="Edit"
+              ></button>
+
+              <button
+                pButton
+                *ngIf="!toggleSmokerPremium"
+                type="button"
+                icon="pi pi-plus-circle"
+                (click)="handleClickAddSmokerPremium()"
+                class="p-button-raised"
+                label="Add Premium"
+              ></button>
+            </div>
+            <br />
+
+            <div style="margin-left: 10%; width: 80%">
+              <p-table
+                id="tableSmokerPremium"
+                [value]="productToView.listOfSmokerPremium"
+                [style]="{ 'z-index': '0' }"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="text-align: center">S/N</th>
+                    <th style="text-align: center">Min Age Group</th>
+                    <th style="text-align: center">Max Age Group</th>
+                    <th style="text-align: center">Premium Value</th>
+                    <th style="text-align: center">Action</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template
+                  pTemplate="body"
+                  let-smokepremium
+                  let-rowIndex="rowIndex"
+                >
+                  <tr>
+                    <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                    <td>
+                      <input
+                        pInputText
+                        id="sminAge_{{ rowIndex }}"
+                        name="sminAge_{{ rowIndex }}"
+                        #sminAge="ngModel"
+                        type="number"
+                        [(ngModel)]="smokepremium.minAgeGroup"
+                        required="true"
+                        class="bodyText"
+                        style="width: 100%; text-align: center"
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        pInputText
+                        id="smaxAge_{{ rowIndex }}"
+                        name="smaxAge_{{ rowIndex }}"
+                        #smaxAge="ngModel"
+                        type="number"
+                        [(ngModel)]="smokepremium.maxAgeGroup"
+                        required="true"
+                        class="bodyText"
+                        style="width: 100%; text-align: center"
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        pInputText
+                        id="spremiumValue_{{ rowIndex }}"
+                        name="spremiumValue_{{ rowIndex }}"
+                        #spremiumValue="ngModel"
+                        type="number"
+                        [(ngModel)]="smokepremium.premiumValue"
+                        required="true"
+                        class="bodyText"
+                        style="width: 100%; text-align: center"
+                      />
+                    </td>
+
+                    <td>
+                      <div style="text-align: center">
+                        <button
+                          pButton
+                          pRipple
+                          [disabled]="toggleSmokerPremium"
+                          icon="pi pi-trash"
+                          class="p-button-danger p-button-text"
+                          [style]="{ width: '100%', background: 'white' }"
+                          (click)="handleClickRemoveSmokerPremium(rowIndex)"
+                        ></button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+          <br /><br />
+          <div style="text-align: center">
+            <button
+              pButton
+              type="button"
+              label="Update"
+              badgeClass="p-badge-info"
+              icon="pi pi-check"
+              class="p-button-info"
+              (click)="updateProduct(updateProductForm)"
+            ></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+  </div>
+</div>
+
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>
+
+<app-footer></app-footer>

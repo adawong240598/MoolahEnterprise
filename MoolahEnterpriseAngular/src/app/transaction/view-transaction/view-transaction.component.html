@@ -1,0 +1,172 @@
+<app-header></app-header>
+<br />
+<p-toast></p-toast>
+<div id="divForTabs ">
+    <p-tabView>
+        <p-tabPanel header="View Transaction History For Product Listing">
+            <br />
+            <div id="filterDate">
+                From : <input pInputText name="startDate" type="date" [(ngModel)]="startDateProductListing"
+                    [disabled]="false"  min="2013-01-01" max="2022-01-01">
+                To :
+                <input pInputText name="endDate" type="date" [(ngModel)]="endDateProductListing" [disabled]="false" min={{startDateProductListing}} max="2022-01-01">
+                &nbsp;
+                <button pButton icon="pi pi-search" type="button" (click)="searchForTransactionProductListing()" label="Search"></button>
+            </div>
+            <br />
+            <div id="viewTransactionForBill">
+
+                <p-table id="tablePointOfContact" [value]="listOfAllSpecificHistoricalTransaction">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="p-datatable-thead" style="width:5%; text-align: center">
+                                S/N
+                            </th>
+                            <th style="text-align: center">Monthly Payment ID:</th>
+
+                            <th style="text-align: center">
+                                Date Transacted
+                            </th>
+                            <th style>Payment Number</th>
+
+                            <th style="text-align: center">Date Generated</th>
+                            <th style="text-align: center">Credits Paid</th>
+                            <th style="text-align: center">View Details of Product</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-pw >
+                        <tr>
+                            <td style="text-align: center">{{ rowIndex + 1 }}</td>
+                            <td>
+                                {{pw.paymentEntity.paymentId}}
+                            </td>
+
+                            <td>
+                                {{getDateString(pw.paymentEntity.dateTransacted)}}
+                            </td>
+
+                            <td>
+                                {{pw.paymentEntity.paymentNumber}}
+                            </td>
+
+
+                            <td>
+                                {{getDateString(pw.paymentEntity.dateGenerated)}}
+
+                            </td>
+                            <td>
+
+                                {{pw.totalPayable}}
+
+                            </td>
+
+                            <td>
+                                <button pButton icon="pi pi-eye" label="View" (click)="viewLineItems($event, rowIndex)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <p-dialog (visibleChange)="clearDialog($event)" [(visible)]="displayPopUp" [modal]="true" [style]="{'width':'60%'}">
+                <div class="card" *ngIf="listOfProductLineItem.length > 0">
+                    <h3>View Product Line Item(s) for Payment S/N(Payment Id) : {{selectedLineItem+1}}
+                        ({{listOfAllSpecificHistoricalTransaction[selectedLineItem].paymentEntity.paymentId}})</h3>
+
+                    <p-table [value]="listOfProductLineItem">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Product Line Item ID</th>
+                                <th>Product ID</th>
+                                <th>Monthly Clicks</th>
+                                <th>Monthly subtotal Credit</th>
+                                <th>Fixed Subscription Credit</th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-pl let-rowIndex="index">
+                            <tr>
+                                <td>{{ pl.prodcutLineItemId }}</td>
+                                <td>{{ pl.product.productId }}</td>
+                                <td>{{ pl.monthlyClicks }}</td>
+                                <td>{{ pl.monthlySubtotalCredit }}</td>
+                                <td>{{ pl.fixedSubscriptionCredit}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </p-dialog>
+        </p-tabPanel>
+        <p-tabPanel header="View Transaction History For Credit Purchased">
+            <br />
+            <div id="filterDate">
+                From : <input pInputText name="startDate" type="date" [(ngModel)]="startDateCreditPayment"
+                    [disabled]="false"  min="2013-01-01" max="2022-01-01">
+                To :
+                <input pInputText name="endDate" type="date" [(ngModel)]="endDateCreditPayment" [disabled]="false"  min={{startDateCreditPayment}} max="2022-01-01">
+                &nbsp;
+                <button pButton icon="pi pi-search" type="button" (click)="searchForTransactionCreditPayment()" label="Search"></button>
+            </div>
+            <br />
+            <div id="viewTransactionCredit">
+
+                <p-table id="tablePointOfContact" [value]="listOfAllSpecificCreditHistoricalTransaction">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="p-datatable-thead" style="width: 5%; text-align: center">
+                                S/N
+                            </th>
+                            <th style="text-align: center">Payment ID:</th>
+
+                            <th style="text-align: center">
+                                Date Transacted
+                            </th>
+                            <th style ="text-align: center">Payment Number</th>
+
+                            <th style="text-align: center">Credit Purchased</th>
+                            <th style="text-align: center">Total Payable</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-pc>
+                        <tr>
+                            <td style="text-align: center">{{ rowIndex + 1 }}</td>
+                            <td>
+                                {{pc.paymentEntity.paymentId}}
+                            </td>
+
+                            <td>
+                                {{getDateString(pc.paymentEntity.dateTransacted)}}
+                            </td>
+
+                            <td>
+                                {{pc.paymentEntity.paymentNumber}}
+                            </td>
+
+
+                            <td>
+                                {{pc.creditPaymentEntity.creditPurchased}}
+
+                            </td>
+                            <td>
+
+                                {{pc.creditPaymentEntity.totalPayable  | number:'1.2-2'}}
+
+                            </td>
+
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<br /><br />
+<br /><br />
+
+<br /><br />
+
+
+<app-footer></app-footer>

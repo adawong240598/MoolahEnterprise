@@ -1,0 +1,61 @@
+.bodyText {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.errorText {
+  list-style-type: none;
+  font-size: 16px;
+  font-family: sans-serif;
+  margin-left: 20px;
+  color: red;
+}
+
+.pageHeader {
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align:center;
+}
+
+.secondaryHeader {
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align:center;
+}
+
+.inputWidth {
+  width: 60%;
+  background-color: transparent;
+}
+
+td {
+  width: 80%;
+  background-color: transparent;
+}
+
+#tag div {
+  background: URL("http://localhost:8080/MoolahEnterprise-war/resources/images/updated_createCompany2.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  background-attachment: fixed;
+}
+
+:host >>> .p-inputtext {
+  margin: 0;
+  background-color: white;
+  border: 1px solid rgb(145, 145, 145);
+}
+
+:host >>> #divFeatures {
+  margin-left: 10%;
+  width: 80%;
+  z-index: 1;
+}
+
+.p-button.p-button-text {
+  background-color: white;
+  border-color: white;
+}

@@ -1,0 +1,686 @@
+<app-header></app-header>
+<br />
+
+<p-toast></p-toast>
+
+<div id="tag">
+  <div>
+    <br />
+    <h2 class="pageHeader">Create New Product</h2>
+    <br />
+
+    <div *ngIf="checkCreditOwned()">
+      <p class="bodyText" style="text-align: center; color: red">
+        You need to have <b>at least 1000 credits</b> in your account to start
+        creating products
+      </p>
+      <div style="text-align: center">
+        <button
+          pButton
+          label="Top up Credits"
+          (click)="redirectToTopUpCredit()"
+          class="p-button-raised"
+          icon="pi pi-credit-card"
+        ></button>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
+
+    <div *ngIf="!checkCreditOwned()">
+      <h2 class="secondaryHeader">Product Information</h2>
+      <form
+        #createProductForm="ngForm"
+        style="height: 10%; background-color:transparent!important; z-index:1"
+      >
+        <table style="border-spacing: 0 23px; margin-left: 25%; width: 70%">
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Product Name
+            </td>
+            <td>
+              <input
+                pInputText
+                id="productName"
+                name="productName"
+                #productName="ngModel"
+                type="text"
+                [(ngModel)]="product.productName"
+                required="true"
+                class="bodyText, inputWidth"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Product Description
+            </td>
+            <td>
+              <input
+                pInputText
+                id="productDescription"
+                name="productDescription"
+                #productDescription="ngModel"
+                type="text"
+                [(ngModel)]="product.description"
+                required="true"
+                class="bodyText, inputWidth"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Product Coverage Term
+            </td>
+            <td>
+              <input
+                pInputText
+                id="coverageTerm"
+                name="coverageTerm"
+                #coverageTerm="ngModel"
+                type="number"
+                [(ngModel)]="product.coverageTerm"
+                required="true"
+                class="bodyText, inputWidth"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Product Assured Sum
+            </td>
+            <td>
+              <input
+                pInputText
+                id="assuredSum"
+                name="assuredSum"
+                #assuredSum="ngModel"
+                type="number"
+                [(ngModel)]="product.assuredSum"
+                (change)="checkAssuredTouch()"
+                required="true"
+                class="bodyText, inputWidth"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Product Premium Term
+            </td>
+            <td>
+              <input
+                pInputText
+                id="premiumTerm"
+                name="premiumTerm"
+                #premiumTerm="ngModel"
+                type="number"
+                [(ngModel)]="product.premiumTerm"
+                required="true"
+                class="bodyText, inputWidth"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Average Interest Rate
+            </td>
+            <td>
+              <input
+                pInputText
+                id="avgInterestRate"
+                name="avgInterestRate"
+                #avgInterestRate="ngModel"
+                type="number"
+                [(ngModel)]="product.averageInterestRate"
+                (change)="averageInterestTouch()"
+                required="true"
+                class="bodyText, inputWidth"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Policy Currency Value
+            </td>
+            <td>
+              <select
+                id="policyCurrencyList"
+                name="policyCurrencyList"
+                [(ngModel)]="product.policyCurrency"
+                (change)="selectChangeHandlerCurrency($event)"
+                required="true"
+                #policyCurrencyList="ngModel"
+              >
+                <option value="SGD">SGD</option>
+                <option value="USD">USD</option>
+                <option value="NZD">NZD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="MYR">MYR</option>
+                <option value="HKD">HKD</option>
+                <option value="RMB">RMB</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Is Available To Smoker
+            </td>
+            <td>
+              <select
+                id="smokerBoolean"
+                name="smokerBoolean"
+                [(ngModel)]="product.isAvailableToSmoker"
+                required="true"
+                #smokerBoolean="ngModel"
+              >
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option></select
+              >&nbsp;
+            </td>
+          </tr>
+
+          <tr>
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Product Category
+            </td>
+            <td>
+              <select
+                id="productTypeEnum"
+                name="productTypeEnum"
+                [(ngModel)]="productType"
+                (change)="chooseEnum($event)"
+                required="true"
+                #productTypeEnum="ngModel"
+              >
+                <option value="termlife">Term Life</option>
+                <option value="wholelife">Whole Life</option>
+                <option value="endowment">Endowment</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr *ngIf="isTermLife == true">
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Type of Term Life
+            </td>
+            <td>
+              <select
+                id="termLife"
+                name="termLife"
+                [(ngModel)]="termLifeEnum"
+                (change)="selectTermLifeEnum($event)"
+                required="true"
+                #termLife="ngModel"
+              >
+                <option value="ACCIDENT">Accident</option>
+                <option value="HOSPITAL">Hospital</option>
+                <option value="CRITICALILLNESS">Critical Illness</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr *ngIf="isWholeLife == true">
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Type of Whole Life
+            </td>
+            <td>
+              <select
+                id="wholeLife"
+                name="wholeLife"
+                [(ngModel)]="wholeLifeEnum"
+                (change)="selectWholeLifeEnum($event)"
+                required="true"
+                #wholeLife="ngModel"
+              >
+                <option value="ACCIDENT">Accident</option>
+                <option value="HOSPITAL">Hospital</option>
+                <option value="CRITICALILLNESS">Critical Illness</option>
+                <option value="LIFEINSURANCE">Life Insurance</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr *ngIf="isEndowment == true">
+            <td style="font-weight: bold; width: 20%" class="bodyText">
+              Type of Endowment
+            </td>
+            <td>
+              <select
+                id="endowment"
+                name="endowment"
+                [(ngModel)]="endowmentEnum"
+                (change)="selectEndowmentEnum($event)"
+                required="true"
+                #endowment="ngModel"
+              >
+                <option value="ENDOWMENT">Endowment</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <br />
+
+        <div style="text-align: center">
+          <h2 class="secondaryHeader">Additional Features</h2>
+
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus-circle"
+            (click)="handleClickAddFeature()"
+            class="p-button-raised"
+            label="Add Feature"
+          ></button>
+        </div>
+        <br />
+
+        <div style="margin-left: 10%; width: 80%">
+          <p-table
+            id="tableFeature"
+            [value]="product.listOfAdditionalFeatures"
+            [style]="{ 'z-index': '0' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 7%; text-align: center">S/N</th>
+                <th style="width: 30%; text-align: center">Feature name</th>
+                <th style="text-align: center">Feature Description</th>
+                <th style="width: 7%; text-align: center">Action</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-prod let-rowIndex="rowIndex">
+              <tr>
+                <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="featureName_{{rowIndex}}"
+                    name="featureName_{{ rowIndex }}"
+                    #featureName="ngModel"
+                    type="text"
+                    [(ngModel)]="prod.featureName"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="featureDescription_{{rowIndex}}"
+                    name="featureDescription_{{ rowIndex }}"
+                    #featureDescription="ngModel"
+                    type="text"
+                    [(ngModel)]="prod.featureDescription"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td style="background: white">
+                  <div style="text-align: center">
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-trash"
+                      class="p-button-danger p-button-text"
+                      (click)="handleClickRemoveFeature(rowIndex)"
+                      style="width: 100%"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <br />
+
+        <div style="text-align: center">
+          <h2 class="secondaryHeader">Riders For Products</h2>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus-circle"
+            (click)="handleClickAddRider()"
+            class="p-button-raised"
+            label="Add Rider"
+          ></button>
+        </div>
+        <br />
+
+        <div style="margin-left: 10%; width: 80%">
+          <p-table
+            id="tableRider"
+            [value]="product.listOfRiders"
+            [style]="{ 'z-index': '0' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 7%; text-align: center">S/N</th>
+                <th style="width: 30%; text-align: center">Rider name</th>
+                <th style="width: 15%; text-align: center">
+                  Rider Premium Value
+                </th>
+                <th style="text-align: center">Rider Description</th>
+                <th style="width: 7%; text-align: center">Action</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rider let-rowIndex="rowIndex">
+              <tr>
+                <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="riderName_{{rowIndex}}"
+                    name="riderName_{{ rowIndex }}"
+                    #riderName="ngModel"
+                    type="text"
+                    [(ngModel)]="rider.riderName"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="riderPremiumValue_{{rowIndex}}"
+                    name="riderPremiumValue_{{ rowIndex }}"
+                    #riderPremiumValue="ngModel"
+                    type="number"
+                    [(ngModel)]="rider.riderPremiumValue"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="riderDescription_{{rowIndex}}"
+                    name="riderDescription_{{ rowIndex }}"
+                    #riderDescription="ngModel"
+                    type="text"
+                    [(ngModel)]="rider.riderDescription"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <div style="text-align: center">
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-trash"
+                      class="p-button-danger p-button-text"
+                      (click)="handleClickRemoveRider(rowIndex)"
+                      style="width: 100%"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <br />
+
+        <div style="text-align: center">
+          <h2 class="secondaryHeader">Premium For Product</h2>
+
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus-circle"
+            (click)="handleClickAddPremium()"
+            class="p-button-raised"
+            label="Add Premium"
+          ></button>
+        </div>
+        <br />
+
+        <div style="margin-left: 10%; width: 80%">
+          <p-table
+            id="tablePremium"
+            [value]="product.listOfPremium"
+            [style]="{ 'z-index': '0' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="text-align: center">S/N</th>
+                <th style="text-align: center">Min Age Group</th>
+                <th style="text-align: center">Max Age Group</th>
+                <th style="text-align: center">Premium Value</th>
+                <th style="text-align: center">Action</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-premium let-rowIndex="rowIndex">
+              <tr>
+                <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="minAge_{{rowIndex}}"
+                    name="minAge_{{ rowIndex }}"
+                    #minAge="ngModel"
+                    type="number"
+                    [(ngModel)]="premium.minAgeGroup"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="maxAge_{{rowIndex}}"
+                    name="maxAge_{{ rowIndex }}"
+                    #maxAge="ngModel"
+                    type="number"
+                    [(ngModel)]="premium.maxAgeGroup"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <input
+                    pInputText
+                    id="premiumValue_{{rowIndex}}"
+                    name="premiumValue_{{ rowIndex }}"
+                    #premiumValue="ngModel"
+                    type="number"
+                    [(ngModel)]="premium.premiumValue"
+                    required="true"
+                    class="bodyText"
+                    style="width: 100%; text-align: center"
+                  />
+                </td>
+
+                <td>
+                  <div style="text-align: center">
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-trash"
+                      class="p-button-danger p-button-text"
+                      style="width: 100%"
+                      (click)="handleClickRemovePremium(rowIndex)"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <br />
+        <div *ngIf="product.isAvailableToSmoker == true">
+          <div style="text-align: center">
+            <h2 class="secondaryHeader">Smoker Premium For Product</h2>
+
+            <button
+              pButton
+              type="button"
+              icon="pi pi-plus-circle"
+              (click)="handleClickAddSmokerPremium()"
+              label="Add Premium"
+            ></button>
+          </div>
+          <br />
+
+          <div style="margin-left: 10%; width: 80%">
+            <p-table
+              id="tableSmokerPremium"
+              [value]="product.listOfSmokerPremium"
+              [style]="{ 'z-index': '0' }"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="text-align: center">S/N</th>
+                  <th style="text-align: center">Min Age Group</th>
+                  <th style="text-align: center">Max Age Group</th>
+                  <th style="text-align: center">Premium Value</th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+
+              <ng-template
+                pTemplate="body"
+                let-smokepremium
+                let-rowIndex="rowIndex"
+              >
+                <tr>
+                  <td style="text-align: center">{{ rowIndex + 1 }}</td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="sminAge_{{rowIndex}}"
+                      name="sminAge_{{ rowIndex }}"
+                      #sminAge="ngModel"
+                      type="number"
+                      [(ngModel)]="smokepremium.minAgeGroup"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="smaxAge_{{rowIndex}}"
+                      name="smaxAge_{{ rowIndex }}"
+                      #smaxAge="ngModel"
+                      type="number"
+                      [(ngModel)]="smokepremium.maxAgeGroup"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      pInputText
+                      id="spremiumValue_{{rowIndex}}"
+                      name="spremiumValue_{{ rowIndex }}"
+                      #spremiumValue="ngModel"
+                      type="number"
+                      [(ngModel)]="smokepremium.premiumValue"
+                      required="true"
+                      class="bodyText"
+                      style="width: 100%; text-align: center"
+                    />
+                  </td>
+
+                  <td>
+                    <div style="text-align: center">
+                      <button
+                        pButton
+                        pRipple
+                        icon="pi pi-trash"
+                        class="p-button-danger p-button-text"
+                        style="width: 100%"
+                        (click)="handleClickRemoveSmokerPremium(rowIndex)"
+                      ></button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+
+        <br /><br />
+        <div style="text-align: center">
+          <button
+            pButton
+            type="button"
+            label="Clear"
+            badgeClass="p-badge-info"
+            icon="pi pi-refresh"
+            class="p-button-raised p-button-secondary"
+            (click)="clear()"
+          ></button>
+          &nbsp;
+          <button
+            pButton
+            type="button"
+            label="Create"
+            badgeClass="p-badge-info"
+            icon="pi pi-plus"
+            class="p-button-info"
+            (click)="createProduct(createProductForm)"
+          ></button>
+        </div>
+      </form>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+  </div>
+</div>
+
+<app-footer></app-footer>

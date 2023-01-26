@@ -1,0 +1,49 @@
+@import '../../../../node_modules/primeng/resources/primeng.min.css';
+@import '../../../../node_modules/primeng/resources/themes/nova/theme.css';
+@import '../../../../node_modules/primeng/resources/primeng.css';
+.bodyText {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.errorText {
+  list-style-type: none;
+  font-size: 16px;
+  font-family: sans-serif;
+  margin-left: 20px;
+  color: red;
+}
+
+.pageHeader {
+  font-size: 22px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.secondaryHeader {
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.inputWidth {
+  width: 70%;
+}
+
+.tableHeader {
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+th {
+  border : none!important;
+}
+
+td {
+  border : none!important;
+  text-align:center!important;
+}
+

@@ -1,0 +1,132 @@
+<app-header></app-header>
+
+<h2 style="text-align: center" class="secondaryHeader">Unpaid Transactions</h2>
+
+<div *ngIf="monthlyPayments.length <= 0">
+  <p class="bodyText" style="text-align: center">
+    You do not have any unpaid transactions
+  </p>
+</div>
+<div class="card" *ngIf="monthlyPayments.length > 0">
+  <p-table
+    [value]="monthlyPayments"
+    [style]="{ width: '60%', 'margin-left': '20%', 'text-align': 'center' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="text-align: center" width="7%">ID</th>
+        <th style="text-align: center">Payment Number</th>
+        <th style="text-align: center">Date(MM-YYYY)</th>
+        <th style="text-align: center">Sub Total(Credit)</th>
+        <th style="text-align: center" width="15%">Status</th>
+        <th style="text-align: center" width="15%">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-payment let-rowIndex="rowIndex">
+      <tr>
+        <td style="text-align: center">{{ payment.paymentId }}</td>
+        <td style="text-align: center">{{ payment.paymentNumber }}</td>
+        <td style="text-align: center">
+          {{ getDateString(payment.dateGenerated) }}
+        </td>
+        <td style="text-align: center">{{ payment.totalPayable }}</td>
+        <td style="text-align: center">
+          <p-badge
+            value="{{ getString(payment.paid) }}"
+            severity="{{ severity }}"
+          ></p-badge>
+        </td>
+        <td style="text-align: center">
+          <button
+            pButton
+            class="p-button-text p-button-rounded"
+            icon="pi pi-file-o"
+            (click)="viewLineItems($event, rowIndex)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  (visibleChange)="clearDialog($event)"
+  [style]="{ width: '50vw' }"
+  header="Statement for {{ getDateGeneratedString() }}"
+  [(visible)]="display"
+  [modal]="true"
+>
+  <p-table [value]="listOfProductItems">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="text-align: center" width="5%">S/N</th>
+        <th style="text-align: center" width="20%">Product Name</th>
+        <th style="text-align: center" width="5%">Product ID</th>
+        <th style="text-align: center" width="10%">Monthly Clicks</th>
+        <th style="text-align: center" width="10%">Subscription (Credits)</th>
+        <th style="text-align: center" width="10%">Subtotal (Credits)</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-lineItem let-rowIndex="rowIndex">
+      <tr>
+        <td style="text-align: center">{{ rowIndex + 1 }}</td>
+        <td style="text-align: center">{{ lineItem.product.productName }}</td>
+        <td style="text-align: center">{{ lineItem.product.productId }}</td>
+        <td style="text-align: center">{{ lineItem.monthlyClicks }}</td>
+        <td style="text-align: center">
+          {{ lineItem.fixedSubscriptionCredit }}
+        </td>
+        <td style="text-align: center">{{ lineItem.monthlySubtotalCredit }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <br />
+  <br />
+  <hr />
+  <p style="font-size: 18px; font-weight: bold; text-align: center">
+    Subtotal (Credits)
+  </p>
+  <p style="font-size: 18px; text-align: center">
+    {{ getTotalPayableString() }} Credits
+  </p>
+
+  <br />
+  <div
+    style="text-align: center"
+    *ngIf="company.creditOwned >= getTotalPayable(getTotalPayableString())"
+  >
+    <button
+      pButton
+      icon="pi pi-credit-card"
+      label="Pay Now"
+      (click)="payNow()"
+      [disabled]="checkForPaid()"
+    ></button>
+  </div>
+
+  <div
+    style="text-align: center"
+    *ngIf="company.creditOwned < getTotalPayable(getTotalPayableString())"
+  >
+    <p>You do not have enough credits to pay now</p>
+    <button
+      pButton
+      icon="pi pi-credit-card"
+      label="Top up now"
+      (click)="redirectToTopUp()"
+    ></button>
+  </div>
+
+  <div style="text-align: center" *ngIf="checkForPaid()">
+    <p>You have already paid for this bill!</p>
+  </div>
+</p-dialog>
+
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>
+
+<p-toast></p-toast>
+<app-footer></app-footer>
